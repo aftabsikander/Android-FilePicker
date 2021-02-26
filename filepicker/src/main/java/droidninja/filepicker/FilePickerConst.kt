@@ -12,6 +12,7 @@ object FilePickerConst {
     const val REQUEST_CODE_MEDIA_DETAIL = 235
     const val REQUEST_CODE_PERMISSION = 988
 
+    const val DEFAULT_MINIMUM_COUNT = 1
     const val DEFAULT_MAX_COUNT = -1
     const val DEFAULT_COLUMN_NUMBER = 3
     const val DEFAULT_FILE_SIZE = Int.MAX_VALUE

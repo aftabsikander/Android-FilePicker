@@ -14,6 +14,7 @@ import java.util.LinkedHashSet
  */
 object PickerManager {
     private var maxCount = FilePickerConst.DEFAULT_MAX_COUNT
+    private var minCount = FilePickerConst.DEFAULT_MINIMUM_COUNT
     private var showImages = true
     var cameraDrawable = R.drawable.ic_camera
     var sortingType = SortingTypes.NONE
@@ -78,6 +79,15 @@ object PickerManager {
 
     val currentCount: Int
         get() = selectedPhotos.size + selectedFiles.size
+
+    fun setMinCount(count: Int) {
+        reset()
+        this.minCount = count
+    }
+
+    fun getMinCount(): Int {
+        return minCount
+    }
 
     fun setMaxCount(count: Int) {
         reset()

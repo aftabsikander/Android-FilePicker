@@ -17,6 +17,7 @@ import java.util.*
 
 class FilePickerActivity : BaseFilePickerActivity(), PhotoPickerFragmentListener, DocFragment.DocFragmentListener, DocPickerFragment.DocPickerFragmentListener, MediaPickerFragment.MediaPickerFragmentListener {
     private var type: Int = 0
+    private var currentCount = -1
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,8 @@ class FilePickerActivity : BaseFilePickerActivity(), PhotoPickerFragmentListener
     override fun setToolbarTitle(count: Int) {
         val actionBar = supportActionBar
         if (actionBar != null) {
+            currentCount = count
+            invalidateOptionsMenu()
             val maxCount = PickerManager.getMaxCount()
             if (maxCount == -1 && count > 0) {
                 actionBar.title = String.format(getString(R.string.attachments_num), count)
@@ -82,11 +85,16 @@ class FilePickerActivity : BaseFilePickerActivity(), PhotoPickerFragmentListener
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.picker_menu, menu)
-        val menuItem = menu.findItem(R.id.action_done)
-        if (menuItem != null) {
-            menuItem.isVisible = PickerManager.getMaxCount() != 1
-        }
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val menuItem = menu?.findItem(R.id.action_done)
+        if (menuItem != null) {
+            menuItem.isVisible = showDoneMenuAccordingToMinimumCount()
+        }
+        return super.onPrepareOptionsMenu(menu)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -155,6 +163,10 @@ class FilePickerActivity : BaseFilePickerActivity(), PhotoPickerFragmentListener
                     else
                         PickerManager.selectedFiles)
         }
+    }
+
+    private fun showDoneMenuAccordingToMinimumCount(): Boolean {
+        return currentCount >= PickerManager.getMinCount()
     }
 
     companion object {

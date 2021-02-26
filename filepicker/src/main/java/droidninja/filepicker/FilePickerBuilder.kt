@@ -37,6 +37,11 @@ class FilePickerBuilder {
         return this
     }
 
+    fun setMinCount(minCount: Int): FilePickerBuilder {
+        PickerManager.setMinCount(minCount)
+        return this
+    }
+
     fun setActivityTheme(theme: Int): FilePickerBuilder {
         PickerManager.theme = theme
         return this
